@@ -127,8 +127,8 @@ class QuantumFramework:
                 'Quantum Time in milliseconds': qTime*1000,
                 'Classical Time in milliseconds': cTime*1000,
                 'Speedup': cTime/qTime
-        return pd.DataFrame(data)
             })
+        return pd.DataFrame(data)
         df = pd.DataFrame(data)
         print(df.to_Markdown())
-        return df
+        return df    
