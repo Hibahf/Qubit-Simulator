@@ -110,23 +110,24 @@ class QuantumFramework:
     def benchmark(self, maxQubits=4):
         data = []
         for n in range(2, maxQubits + 1):
+          for depth in [5, 10, 20]:
             qc = randomCircuit(n, depth=10)
             t0 = time()
-            transpiled = transpile(qc, self.simulator)
-            job = self.simulator.run(transpiled)
+            transpile(qc, simulator).run()
             qTime = time() - t0
             
             t0 = time()
-            mat = np.random.rand(2**n, 2**n)
-            vec = np.random.rand(2**n)
-            np.dot(mat, vec)
+            state = initializeState(n)
+            for _ in range(depth):
+              state = randomGate(state, n)
             cTime = time() - t0
 
             data.append({
-                'Qubits':n,
+                'Qubits': n,  "Depth": depth,
                 'Quantum Time in milliseconds': qTime*1000,
                 'Classical Time in milliseconds': cTime*1000,
                 'Speedup': cTime/qTime
+        return pd.DataFrame(data)
             })
         df = pd.DataFrame(data)
         print(df.to_Markdown())
