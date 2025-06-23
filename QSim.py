@@ -129,6 +129,3 @@ class QuantumFramework:
                 'Speedup': cTime/qTime
             })
         return pd.DataFrame(data)
-        df = pd.DataFrame(data)
-        print(df.to_Markdown())
-        return df
