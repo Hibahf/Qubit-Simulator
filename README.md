@@ -17,3 +17,19 @@ By utilizing NumPy and Qiskit, this script simulates basic quantum circuits. Fur
 ## Technical Insights & Analysis
 
 See the full technical analysis and results here: [ANALYSIS.md](ANALYSIS.md)
+
+## Installation & Usage
+
+### Prerequisites
+- Python 3.8 or higher
+- pip (Python package manager)
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Hibahf/Qubit-Simulator.git
+   cd your-repo-name
+   ```
+2. **Install required dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
