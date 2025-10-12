@@ -16,6 +16,15 @@ For small-scaled quantum circuits (N < 10 qubits), highly-optimized classical si
 
 ### Benchmarking Data
 
+| Qubits | Depth | Quantum Time (ms) | Classical Time (ms) | Speedup |
+|--------|-------|-------------------|---------------------|---------|
+|   2    |   5   |       ##.#        |        ##.#         |   #.##  |
+|   2    |   10  |       ##.#        |        ##.#         |   #.##  |
+|   3    |   5   |       ##.#        |        ##.#         |   #.##  |
+|   3    |   10  |       ##.#        |        ##.#         |   #.##  |
+|   4    |   5   |       ##.#        |        ##.#         |   #.##  |
+|   4    |   10  |       ##.#        |        ##.#         |   #.##  |
+
 ### Key Findings
 
 1. **Simulator Advantage:** As expected, Qiskit's Aer simulator consistently outperformed the custom NumPy implementation by an order of magnitude. This highlights the immense optimization needed for practical quantum simulation.
