@@ -6,7 +6,7 @@ For small-scaled quantum circuits (N < 10 qubits), highly-optimized classical si
 
 ## Methodology
 
-1. **Circuit Generation:* Generated random circuits parameterized by qubit count (2, 3, 4) and circuit depth (5, 10, 20).
+1. **Circuit Generation:** Generated random circuits parameterized by qubit count (2, 3, 4) and circuit depth (5, 10, 20).
 2. **Execution Timing:**
      *  **Quantum Time:** Measurewd time to transpile and run the circuit on the Qiskit Aer `statevector` simulator.
      *  **Classical Time:** Measured time for the custom NumPy simulator to apply an equivalent sequence of gates via matrix multiplication.
