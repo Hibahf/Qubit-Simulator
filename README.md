@@ -27,7 +27,7 @@ See the full technical analysis and results here: [ANALYSIS.md](ANALYSIS.md)
 1. **Clone the repository**
    ```bash
    git clone https://github.com/Hibahf/Qubit-Simulator.git
-   cd your-repo-name
+   cd Qubit-Simulator
    ```
 2. **Install required dependencies**
    ```bash
