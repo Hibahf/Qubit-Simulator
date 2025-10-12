@@ -24,12 +24,12 @@ See the full technical analysis and results here: [ANALYSIS.md](ANALYSIS.md)
 - Python 3.8 or higher
 - pip (Python package manager)
 
-1. **Clone the repository**
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/Hibahf/Qubit-Simulator.git
    cd Qubit-Simulator
    ```
-2. **Install required dependencies**
+2. **Install required dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
