@@ -31,7 +31,7 @@ For small-scaled quantum circuits (N < 10 qubits), highly-optimized classical si
 2.  **Exponential Scaling:** Both simulation times increased exponentially with qubit count, a clear demonstration of the "curse of dimensionality" inherent in representing quantum states.
 3.  **The Noise Overhead:** Introducing the noise model added a measurable and small overhead to the Qiskit simulation time, depicting the computational cost of modeling realistic quantum decoherence.
 
-## Conclusion and Future Work
+## Conclusion & Future Work
 
 This framework successfully quantifies the performance gap between a pedagogical and industrial-grade quantum simulator. The results concluded that while the principles of quantum computing are accessible, achieving practical performance needs sophisticated software engineering.
 
