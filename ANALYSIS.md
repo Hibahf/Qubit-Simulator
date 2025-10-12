@@ -29,7 +29,7 @@ For small-scaled quantum circuits (N < 10 qubits), highly-optimized classical si
 
 1. **Simulator Advantage:** As expected, Qiskit's Aer simulator consistently outperformed the custom NumPy implementation by an order of magnitude. This highlights the immense optimization needed for practical quantum simulation.
 2.  **Exponential Scaling:** Both simulation times increased exponentially with qubit count, a clear demonstration of the "curse of dimensionality" inherent in representing quantum states.
-3.  **The Noise Overhead:** Introducing the noise model added a measureable and small overhead to the Qiskit simulation time, depicting the computational cost of modeling realistic quantum decoherence.
+3.  **The Noise Overhead:** Introducing the noise model added a measurable and small overhead to the Qiskit simulation time, depicting the computational cost of modeling realistic quantum decoherence.
 
 ## Conclusion and Future Work
 
@@ -37,5 +37,5 @@ This framework successfully quantifies the performance gap between a pedagogical
 
 **Future Directions:**
 * Extend benchmarking to 8+ qubits to observe the point where classical simulation becomes intractable on a laptop.
-* Implement the Quantum Fortier Transform (QFT) or Grover's algorithm to benchmark specific algorithms instead of random circuits.
+* Implement the Quantum Fourier Transform (QFT) or Grover's algorithm to benchmark specific algorithms instead of random circuits.
 * Run the same circuits on a real quantum processing unit (QPU) through IBM Quantum to compare simulation time against queue time and execution time on noisy hardware.
