@@ -12,7 +12,7 @@ For small-scaled quantum circuits (N < 10 qubits), highly-optimized classical si
      *  **Classical Time:** Measured time for the custom NumPy simulator to apply an equivalent sequence of gates via matrix multiplication.
 3. **Noise Analysis:** Introduced a depolarizing noise model (5% 1-qubit error, 10% 2-qubit error) to observe its effect on circuit fidelity.
 
-## Results and Discussion
+## Results & Discussion
 
 ### Benchmarking Data
 
