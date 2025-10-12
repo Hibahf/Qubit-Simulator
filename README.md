@@ -18,7 +18,7 @@ By utilizing NumPy and Qiskit, this script simulates basic quantum circuits. Fur
 
 See the full technical analysis and results here: [ANALYSIS.md](ANALYSIS.md)
 
-## Installation and Usage
+## Installation & Usage
 
 ### Prerequisites
 - Python 3.8 or higher
