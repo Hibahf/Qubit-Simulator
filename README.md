@@ -16,4 +16,4 @@ By utilizing NumPy and Qiskit, this script simulates basic quantum circuits. Fur
 
 ## Technical Insights & Analysis
 
-See the full technical analysis and results here:
+See the full technical analysis and results here: [ANALYSIS.md](ANALYSIS.md)
