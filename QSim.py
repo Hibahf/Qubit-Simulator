@@ -37,15 +37,48 @@ def applyGate(state, gate, target, qubitamt):
     return full @ state
 
 def applyCNOT(state, control, target, qubitamt):
-    qc = QuantumCircuit(qubitamt)
-    qc.initialize(state, range(qubitamt))
-    qc.cx(control, target)
-    compiled = transpile(qc, simulator)
-    job = simulator.run(compiled)
-    result = job.result()
-    return result.get_statevector()
+  n = 2**qubitamt
+  new_state = state.copy()
 
-
+for i in range(n):
+  control_bit = (i >> (qubitamt - 1 - control)) & 1
+  target_bit = (i >> (qubitamt - 1 - target)) & 1
+  
+  if control_bit == 1:
+    j = i^(1<<(qubitamt - 1 - target))
+    pass
+    
+  I = np.eye(2)
+  P0 = np.array([[1,0], [0,0]])
+  P1 = np.array([[0,0], [0,1]])
+  X = np.array([[0,1], [1,0]])
+  
+  cnot_matrix = None
+  for i in range(qubitamt):
+    if i == 0:
+      if i == control:
+        current = P0
+      elif i == target:
+        current = I
+      else:
+        current = I
+    else:
+      if i == control:
+        current = np.kron(current, P0)
+      elif i == target:
+        current = np.kron(current, I)
+      else:
+        current = np.kron(current, I)
+        
+  mat = np.eye(2**qubitamt)
+  for i in range(0, 2**qubitamt, 2**(qubitamt-target)):
+    for j in range(i, i+2**(qubitamt - target - 1)):
+      if (j >> (qubitamt-control-1) & 1:
+        swap_index = j^(1<<(qubitamt - target - 1))
+        mat[j], mat[swap_index] = mat[swap_index], mat[j]
+        
+  return mat @ state
+  
 def randomGate(state, qubitamt):
     type = random.choice(['single', 'two'])
     if type == 'single' and qubitamt >= 1:
@@ -111,9 +144,11 @@ class QuantumFramework:
         data = []
         for n in range(2, maxQubits + 1):
           for depth in [5, 10, 20]:
-            qc = randomCircuit(n, depth=10)
+            qc = randomCircuit(n, depth=depth)
             t0 = time()
-            transpile(qc, simulator).run()
+            transpile(qc, simulator)
+            job = simulator.run(transpiled)
+            result = job.result()
             qTime = time() - t0
             
             t0 = time()
