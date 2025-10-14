@@ -7,6 +7,7 @@ from qiskit_aer import AerSimulator, NoiseModel
 from qiskit.algorithms import Shor
 from qiskit.primitives import Sampler
 from qiskit_aer.noise import depolarizing_error
+from qiskit.circuit.library import H, X, Z
 
 sampler = Sampler()
 shor = Shor(sampler=sampler)
@@ -37,8 +38,11 @@ def applyGate(state, gate, target, qubitamt):
     return full @ state
 
 def applyCNOT(state, control, target, qubitamt):
-  n = 2**qubitamt
-  new_state = state.copy()
+  qc = QuantumCircuit(qubitamt)
+  qc.cx(control, target)
+  # simulator = AerSimulator(method='statevector')
+  result = simulator.run(qc).result()
+  return result.get_statevector(qc)
 
 for i in range(n):
   control_bit = (i >> (qubitamt - 1 - control)) & 1
@@ -73,7 +77,7 @@ for i in range(n):
   mat = np.eye(2**qubitamt)
   for i in range(0, 2**qubitamt, 2**(qubitamt-target)):
     for j in range(i, i+2**(qubitamt - target - 1)):
-      if (j >> (qubitamt-control-1) & 1:
+      if (j >> (qubitamt-control-1) & 1):
         swap_index = j^(1<<(qubitamt - target - 1))
         mat[j], mat[swap_index] = mat[swap_index], mat[j]
         
@@ -91,16 +95,19 @@ def randomGate(state, qubitamt):
     return state
 
 def randomCircuit(qubitamt, depth):
-    state = initializeState(qubitamt)
+    qc = QuantumCircuit(qubitamt)
     for _ in range(depth):
         if random.choice([True, False]) and qubitamt >= 2:
             control, target = random.sample(range(qubitamt), 2)
-            state = applyCNOT(state, control, target, qubitamt)
+            qc.cx(control, target)
         else:
             gate = random.choice([Hadamard, PauliX, PauliZ])
             target = random.randint(0, qubitamt - 1)
-            state = applyGate(state, gate, target, qubitamt)
+            qc.append(gate, [target])
     
+    simulator = AerSimulator(method='statevector')
+    result = simulator.run(qc).result()
+    state = result.get_vector(qc)
     counts = {f"{i:0{qubitamt}b}": abs(amp)**2
                 for i, amp in enumerate(state)}
     return state
@@ -146,7 +153,7 @@ class QuantumFramework:
           for depth in [5, 10, 20]:
             qc = randomCircuit(n, depth=depth)
             t0 = time()
-            transpile(qc, simulator)
+            transpiled = transpile(qc, simulator)
             job = simulator.run(transpiled)
             result = job.result()
             qTime = time() - t0
