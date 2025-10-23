@@ -42,45 +42,41 @@ def applyCNOT(state, control, target, qubitamt):
   qc.cx(control, target)
   result = simulator.run(qc).result()
   return result.get_statevector(qc)
-
-for i in range(n):
-  control_bit = (i >> (qubitamt - 1 - control)) & 1
-  target_bit = (i >> (qubitamt - 1 - target)) & 1
   
-  if control_bit == 1:
-    j = i^(1<<(qubitamt - 1 - target))
-    pass
+  # if control_bit == 1:
+  #   j = i^(1<<(qubitamt - 1 - target))
+  #   pass
     
-  I = np.eye(2)
-  P0 = np.array([[1,0], [0,0]])
-  P1 = np.array([[0,0], [0,1]])
-  X = np.array([[0,1], [1,0]])
+  # I = np.eye(2)
+  # P0 = np.array([[1,0], [0,0]])
+  # P1 = np.array([[0,0], [0,1]])
+  # X = np.array([[0,1], [1,0]])
   
-  cnot_matrix = None
-  for i in range(qubitamt):
-    if i == 0:
-      if i == control:
-        current = P0
-      elif i == target:
-        current = I
-      else:
-        current = I
-    else:
-      if i == control:
-        current = np.kron(current, P0)
-      elif i == target:
-        current = np.kron(current, I)
-      else:
-        current = np.kron(current, I)
+  # cnot_matrix = None
+  # for i in range(qubitamt):
+  #   if i == 0:
+  #     if i == control:
+  #       current = P0
+  #     elif i == target:
+  #       current = I
+  #     else:
+  #       current = I
+  #   else:
+  #     if i == control:
+  #       current = np.kron(current, P0)
+  #     elif i == target:
+  #       current = np.kron(current, I)
+  #     else:
+  #       current = np.kron(current, I)
         
-  mat = np.eye(2**qubitamt)
-  for i in range(0, 2**qubitamt, 2**(qubitamt-target)):
-    for j in range(i, i+2**(qubitamt - target - 1)):
-      if (j >> (qubitamt-control-1) & 1):
-        swap_index = j^(1<<(qubitamt - target - 1))
-        mat[j], mat[swap_index] = mat[swap_index], mat[j]
+  # mat = np.eye(2**qubitamt)
+  # for i in range(0, 2**qubitamt, 2**(qubitamt-target)):
+  #   for j in range(i, i+2**(qubitamt - target - 1)):
+  #     if (j >> (qubitamt-control-1) & 1):
+  #       swap_index = j^(1<<(qubitamt - target - 1))
+  #       mat[j], mat[swap_index] = mat[swap_index], mat[j]
         
-  return mat @ state
+  # return mat @ state
   
 def randomGate(state, qubitamt):
   type = random.choice(['single', 'two'])
@@ -104,7 +100,6 @@ def randomCircuit(qubitamt, depth):
         target = random.randint(0, qubitamt - 1)
         qc.append(gate, [target])
     
-    simulator = AerSimulator(method='statevector')
     result = simulator.run(qc).result()
     state = result.get_vector(qc)
     counts = {f"{i:0{qubitamt}b}": abs(amp)**2 for i, amp in enumerate(state)}
@@ -169,3 +164,5 @@ class QuantumFramework:
                 'Speedup': cTime/qTime
             })
         return pd.DataFrame(data)
+framework = QuantumFramework()
+framework
