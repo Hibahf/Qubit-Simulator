@@ -27,20 +27,19 @@ tqgate = [CNOT]
 simulator = AerSimulator(method = 'statevector')
 
 def initializeState(qubitamt):
-    state = np.zeros(2**qubitamt, dtype=complex)
-    state[0] = 1.0
-    return state
+  state = np.zeros(2**qubitamt, dtype=complex)
+  state[0] = 1.0
+  return state
 
 def applyGate(state, gate, target, qubitamt):
-    eyeBefore = np.eye(2**target)
-    eyeAfter = np.eye(2**(qubitamt - target - 1))
-    full = np.kron(np.kron(eyeBefore, gate), eyeAfter)
-    return full @ state
+  eyeBefore = np.eye(2**target)
+  eyeAfter = np.eye(2**(qubitamt - target - 1))
+  full = np.kron(np.kron(eyeBefore, gate), eyeAfter)
+  return full @ state
 
 def applyCNOT(state, control, target, qubitamt):
   qc = QuantumCircuit(qubitamt)
   qc.cx(control, target)
-  # simulator = AerSimulator(method='statevector')
   result = simulator.run(qc).result()
   return result.get_statevector(qc)
 
@@ -84,32 +83,31 @@ for i in range(n):
   return mat @ state
   
 def randomGate(state, qubitamt):
-    type = random.choice(['single', 'two'])
-    if type == 'single' and qubitamt >= 1:
-        gate = random.choice(sqgate)
-        target = random.randint(0, qubitamt - 1)
-        state = applyGate(state, gate, target, qubitamt)
-    elif type == 'two' and qubitamt >= 2:
-        control, target = random.sample(range(qubitamt), 2)
-        state = applyCNOT(state, control, target, qubitamt)
+  type = random.choice(['single', 'two'])
+  if type == 'single' and qubitamt >= 1:
+    gate = random.choice(sqgate)
+    target = random.randint(0, qubitamt - 1)
+    state = applyGate(state, gate, target, qubitamt)
+  elif type == 'two' and qubitamt >= 2:
+    control, target = random.sample(range(qubitamt), 2)
+    state = applyCNOT(state, control, target, qubitamt)
     return state
 
 def randomCircuit(qubitamt, depth):
     qc = QuantumCircuit(qubitamt)
     for _ in range(depth):
-        if random.choice([True, False]) and qubitamt >= 2:
-            control, target = random.sample(range(qubitamt), 2)
-            qc.cx(control, target)
-        else:
-            gate = random.choice([Hadamard, PauliX, PauliZ])
-            target = random.randint(0, qubitamt - 1)
-            qc.append(gate, [target])
+      if random.choice([True, False]) and qubitamt >= 2:
+        control, target = random.sample(range(qubitamt), 2)
+        qc.cx(control, target)
+      else:
+        gate = random.choice([Hadamard, PauliX, PauliZ])
+        target = random.randint(0, qubitamt - 1)
+        qc.append(gate, [target])
     
     simulator = AerSimulator(method='statevector')
     result = simulator.run(qc).result()
     state = result.get_vector(qc)
-    counts = {f"{i:0{qubitamt}b}": abs(amp)**2
-                for i, amp in enumerate(state)}
+    counts = {f"{i:0{qubitamt}b}": abs(amp)**2 for i, amp in enumerate(state)}
     return state
 
 def noise(qc, errorProb=0.05):
