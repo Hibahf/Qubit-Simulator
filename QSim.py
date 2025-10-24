@@ -12,16 +12,12 @@ from qiskit.circuit.library import H, X, Z
 sampler = Sampler()
 shor = Shor(sampler=sampler)
 
-Hadamard = np.array([[1, 1], [1, -1]]) / np.sqrt(2)
-PauliX = np.array([[0, 1], [1, 0]])
-PauliZ = np.array([[1, 0], [0, -1]])
-
 CNOT = np.array([[1, 0, 0, 0],
                  [0, 1, 0, 0],
                  [0, 0, 0, 1],
                  [0, 0, 1, 0]])
 
-sqgate = [Hadamard, PauliX, PauliZ]
+sqgate = [H, X, Z]
 tqgate = [CNOT]
 
 simulator = AerSimulator(method = 'statevector')
@@ -43,41 +39,6 @@ def applyCNOT(state, control, target, qubitamt):
   result = simulator.run(qc).result()
   return result.get_statevector(qc)
   
-  # if control_bit == 1:
-  #   j = i^(1<<(qubitamt - 1 - target))
-  #   pass
-    
-  # I = np.eye(2)
-  # P0 = np.array([[1,0], [0,0]])
-  # P1 = np.array([[0,0], [0,1]])
-  # X = np.array([[0,1], [1,0]])
-  
-  # cnot_matrix = None
-  # for i in range(qubitamt):
-  #   if i == 0:
-  #     if i == control:
-  #       current = P0
-  #     elif i == target:
-  #       current = I
-  #     else:
-  #       current = I
-  #   else:
-  #     if i == control:
-  #       current = np.kron(current, P0)
-  #     elif i == target:
-  #       current = np.kron(current, I)
-  #     else:
-  #       current = np.kron(current, I)
-        
-  # mat = np.eye(2**qubitamt)
-  # for i in range(0, 2**qubitamt, 2**(qubitamt-target)):
-  #   for j in range(i, i+2**(qubitamt - target - 1)):
-  #     if (j >> (qubitamt-control-1) & 1):
-  #       swap_index = j^(1<<(qubitamt - target - 1))
-  #       mat[j], mat[swap_index] = mat[swap_index], mat[j]
-        
-  # return mat @ state
-  
 def randomGate(state, qubitamt):
   type = random.choice(['single', 'two'])
   if type == 'single' and qubitamt >= 1:
@@ -87,7 +48,7 @@ def randomGate(state, qubitamt):
   elif type == 'two' and qubitamt >= 2:
     control, target = random.sample(range(qubitamt), 2)
     state = applyCNOT(state, control, target, qubitamt)
-    return state
+  return state
 
 def randomCircuit(qubitamt, depth):
     qc = QuantumCircuit(qubitamt)
@@ -101,7 +62,7 @@ def randomCircuit(qubitamt, depth):
         qc.append(gate, [target])
     
     result = simulator.run(qc).result()
-    state = result.get_vector(qc)
+    state = result.get_statevector(qc)
     counts = {f"{i:0{qubitamt}b}": abs(amp)**2 for i, amp in enumerate(state)}
     return state
 
@@ -137,8 +98,9 @@ class QuantumFramework:
         return noise_model
     
     def runShors(self, N):
-        print("Shor's algorithm placeholder, the quantum instance is unavailable.")
-        return None
+      shor = Shor(sampler = self.sampler)
+      result = shor.factor(N)
+      return result
     
     def benchmark(self, maxQubits=4):
         data = []
