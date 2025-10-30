@@ -17,8 +17,7 @@ CNOT = np.array([[1, 0, 0, 0],
                  [0, 0, 0, 1],
                  [0, 0, 1, 0]])
 
-sqgate = [H, X, Z]
-tqgate = [CNOT]
+sqgate = [HGate(), XGate(), ZGate()]
 
 simulator = AerSimulator(method = 'statevector')
 
@@ -39,6 +38,7 @@ def applyCNOT(state, control, target, qubitamt):
   qc.save_statevector()
   result = simulator.run(qc).result()
   return result.get_statevector(qc)
+  return qc, state
   
 def randomGate(state, qubitamt):
   gate_type = random.choice(['single', 'two'])
@@ -79,7 +79,8 @@ def results():
         'Classical Time (ms)': [120, 980, 10500],
         'Quantum Time (ms)': [45, 210, 1100]
     }
-    print(pd.DataFrame(data).to_latex())
+    print("Example data only - replace with benchmark() output:")
+    print(pd.DataFrame(data).to_latex(index=False))
 
 final = randomCircuit(qubitamt=2, depth=5)
 probabilities = np.abs(final)**2
@@ -107,7 +108,7 @@ class QuantumFramework:
         data = []
         for n in range(2, maxQubits + 1):
           for depth in [5, 10, 20]:
-            qc = randomCircuit(n, depth=depth)
+            qc, state_ideal = randomCircuit(n, depth=depth)
             t0 = time()
             transpiled = transpile(qc, simulator)
             job = simulator.run(transpiled)
