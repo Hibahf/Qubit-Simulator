@@ -7,7 +7,7 @@ from qiskit_aer import AerSimulator, NoiseModel
 from qiskit.algorithms import Shor
 from qiskit.primitives import Sampler
 from qiskit_aer.noise import depolarizing_error
-from qiskit.circuit.library import H, X, Z
+from qiskit.circuit.library import HGate, XGate, ZGate
 
 sampler = Sampler()
 shor = Shor(sampler=sampler)
