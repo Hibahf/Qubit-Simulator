@@ -37,8 +37,7 @@ def applyCNOT(state, control, target, qubitamt):
   qc.cx(control, target)
   qc.save_statevector()
   result = simulator.run(qc).result()
-  return result.get_statevector(qc)
-  return qc, state
+  return qc, result.get_statevector(qc)
   
 def randomGate(state, qubitamt):
   gate_type = random.choice(['single', 'two'])
@@ -64,8 +63,7 @@ def randomCircuit(qubitamt, depth):
     
     result = simulator.run(qc).result()
     state = result.get_statevector(qc)
-    counts = {f"{i:0{qubitamt}b}": abs(amp)**2 for i, amp in enumerate(state)}
-    return state
+    return qc, state
 
 def noise(qc, errorProb=0.05):
     for qubit in qc.qubits:
@@ -90,6 +88,7 @@ class QuantumFramework:
     def initialize(self):
         self.simulator = AerSimulator(method ='statevector')
         self.noise_model = self.createNoise()
+        self.sampler = Sampler()
     
     def createNoise(self):
         noise_model = NoiseModel()
