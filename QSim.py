@@ -80,7 +80,7 @@ def results():
     print("Example data only - replace with benchmark() output:")
     print(pd.DataFrame(data).to_latex(index=False))
 
-final = randomCircuit(qubitamt=2, depth=5)
+qc, final = randomCircuit(qubitamt=2, depth=5)
 probabilities = np.abs(final)**2
 print("Final state probabilities:", probabilities)
 
