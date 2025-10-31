@@ -37,7 +37,7 @@ def applyCNOT(state, control, target, qubitamt):
   qc.cx(control, target)
   qc.save_statevector()
   result = simulator.run(qc).result()
-  return qc, result.get_statevector(qc)
+  return result.get_statevector(qc)
   
 def randomGate(state, qubitamt):
   gate_type = random.choice(['single', 'two'])
@@ -57,7 +57,7 @@ def randomCircuit(qubitamt, depth):
         control, target = random.sample(range(qubitamt), 2)
         qc.cx(control, target)
       else:
-        gate = random.choice([H, X, Z])
+        gate = random.choice([HGate(), XGate(), ZGate()])
         target = random.randint(0, qubitamt - 1)
         qc.append(gate, [target])
     
