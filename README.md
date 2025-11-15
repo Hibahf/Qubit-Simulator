@@ -33,3 +33,22 @@ See the full technical analysis and results here: [ANALYSIS.md](ANALYSIS.md)
    ```bash
    pip install -r requirements.txt
    ```
+
+## Usage
+
+After installation, you can run the framework to benchmark circuits:
+
+```python
+from quantum_framework import QuantumFramework
+
+# Initialize the framework (optional noise)
+fw = QuantumFramework(noise_level=0.02)
+
+# Benchmark a random circuit
+df, qc, qstate, cstate = fw.benchmark(num_qubits=2, depth=4, seed=42)
+
+# Display results
+print("Random Circuit:\n", qc)
+print("\nQiskit (ideal) statevector:\n", qstate)
+print("\nClassical (custom) statevector:\n", cstate)
+print("\nBenchmark Results:\n", df)
