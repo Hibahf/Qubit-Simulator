@@ -16,24 +16,6 @@ def kron_n(matrices):
 
 
 def apply_gate_statevector(state, gate_matrix, targets, num_qubits):
-    """
-    Apply `gate_matrix` (a 2^k x 2^k unitary) to the qubits listed in
-    `targets` (Qiskit qubit indices, given in qarg order), on a statevector
-    of `num_qubits` qubits that follows Qiskit's bit-ordering convention:
-    qubit 0 is the LEAST significant bit of the state index.
-
-    Two bit-ordering subtleties matter here, and getting either wrong
-    silently scrambles results for n > 1 qubits without raising any error:
-
-    1. `state.reshape([2] * num_qubits)` puts the MOST significant bit on
-       tensor axis 0 (numpy is row-major/C-order), so Qiskit qubit `q`
-       lives on tensor axis `num_qubits - 1 - q`, not axis `q`.
-    2. Qiskit's own gate matrices (via Gate.to_matrix()) use the convention
-       that the FIRST qarg is the least-significant qubit of the local
-       2^k-dim subspace. So when selecting axes for a multi-qubit gate,
-       `targets` must be taken in REVERSED order to line up with that
-       local matrix convention.
-    """
     k = len(targets)
     if k == 0:
         return state
@@ -179,12 +161,6 @@ class QuantumFramework:
         return df, qc, qstate, cstate
 
     def validate(self, qubit_range=range(1, 6), depths=(3, 6, 10), trials=10, tol=1e-6):
-        """
-        Sweep many random circuits across qubit counts/depths and confirm the
-        classical simulator agrees with Qiskit's statevector simulator
-        (fidelity ~= 1.0 for all of them). Returns a results DataFrame and
-        raises AssertionError on the first mismatch it finds.
-        """
         rows = []
         for n in qubit_range:
             for depth in depths:
